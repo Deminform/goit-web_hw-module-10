@@ -1,7 +1,11 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views.generic import CreateView
+from django.contrib import messages
+
 from .models import Quote, Author
+from .forms import QuoteForm, AuthorForm
 
 
 def index(request):
@@ -36,3 +40,19 @@ def initialize_database(request):
                 description=item['description'],
             )
             author.save()
+
+
+class AuthorView(CreateView):
+    model = AuthorForm
+    template_name = 'app_quote/my-quotes.html'
+    fields = ('fullname', 'born_date', 'born_location', 'description')
+
+
+class QuoteView(CreateView):
+    model = AuthorForm
+    template_name = 'app_quote/my-quotes.html'
+    fields = ('quote', 'tags', 'author')
+
+
+def add_quote(request):
+    return render(request, 'app_quote/my-quotes.html')

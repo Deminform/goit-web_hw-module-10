@@ -1,0 +1,87 @@
+{% extends 'app_quote/base.html' %}
+
+{% block content %}
+    <div class="row g-2">
+        <div class="col-4">
+            <h3>My Quotes</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        Some Text
+                    </div>
+                    <div>
+                        <a class="nav-link btn btn-link"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Edit
+                        </a>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        Some Text
+                    </div>
+                    <div>
+                        <a class="nav-link btn btn-link"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Edit
+                        </a>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        Some Text
+                    </div>
+                    <div>
+                        <a class="nav-link btn btn-link"
+                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            Edit
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-8">
+            <div class="container" style="padding-left: 50px">
+                <div class="btn-group mb-5 w-100" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked
+                           onchange="toggleForms()">
+                    <label class="btn btn-outline-secondary btn-sm" for="btnradio1">Add Author</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"
+                           onchange="toggleForms()">
+                    <label class="btn btn-outline-secondary btn-sm" for="btnradio2">Add Quote</label>
+                </div>
+                <div>
+                    <div id="add-author-form">
+                        {% include 'app_quote/add-author.html' %}
+                    </div>
+                    <div class="d-none" id="add-quote-form">
+                        {% include 'app_quote/add-quote.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            var radio1 = document.getElementById('btnradio1');
+            var radio2 = document.getElementById('btnradio2');
+
+            var authorForm = document.getElementById('add-author-form');
+            var quoteForm = document.getElementById('add-quote-form');
+
+            if (radio1.checked) {
+                authorForm.classList.remove('d-none');
+                quoteForm.classList.add('d-none');
+            } else if (radio2.checked) {
+                authorForm.classList.add('d-none');
+                quoteForm.classList.remove('d-none');
+            }
+        }
+    </script>
+{% endblock %}
+
+
+
