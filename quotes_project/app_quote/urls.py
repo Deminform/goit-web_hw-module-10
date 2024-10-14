@@ -4,7 +4,7 @@ from . import views
 from .forms import QuoteForm, AuthorForm
 
 
-app_name = 'quotes'
+app_name = 'app_quotes'
 
 urlpatterns = [
     path('', views.index, name='index'),
