@@ -1,43 +1,28 @@
-<h3>Add Quote</h3>
-<form class="input-group mb-3 p-3 input-group-text">
+{% extends 'app_quote/base.html' %}
 
-    {#        <div class="col-auto">#}
-    {#            <label class="visually-hidden" for="autoSizingSelect">Preference</label>#}
-    {##}
-    {#            <div class="input-group">#}
-    {#                <div class="input-group-text">Author</div>#}
-    {#                <select class="form-select" id="autoSizingSelect">#}
-    {#                    <option selected>Select the author</option>#}
-    {#                    <option value="1">One</option>#}
-    {#                    <option value="2">Two</option>#}
-    {#                    <option value="3">Three</option>#}
-    {#                </select>#}
-    {#            </div>#}
-    {#        </div>#}
-
-
-    <div class="col-12">
-        <label class="visually-hidden" for="autoSizingInputGroup">Author</label>
-        <div class="input-group w-100">
-
-            <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Author">
+{% block content %}
+    <h3>Add Quote</h3>
+    <form class="input-group mb-3 p-3 input-group-text" method="post">
+        {% csrf_token %}
+        <div class="col-12">
+            {{ form.author.label_tag }}
+            <div class="input-group w-100">
+                {{ form.author }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <label class="visually-hidden" for="autoSizingInputGroup">Tags</label>
-        <div class="input-group w-100">
-
-            <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Tags">
+        <div class="col-12 mt-3">
+            <label class="visually-hidden" for="autoSizingInputGroup">Tags</label>
+            <div class="input-group w-100">
+                {{ form.tags }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <div class="input-group w-100">
-
-            <textarea class="form-control" aria-label="Description" placeholder="Quote"></textarea>
+        <div class="col-12 mt-3">
+            <div class="input-group w-100">
+                {{ form.quote }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </div>
-
-</form>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </div>
+    </form>
+{% endblock %}

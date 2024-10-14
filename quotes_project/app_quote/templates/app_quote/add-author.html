@@ -1,50 +1,37 @@
-<h3>Add Author</h3>
-<form class="input-group mb-3 p-3 input-group-text">
+{% extends 'app_quote/base.html' %}
 
-    {#        <div class="col-auto">#}
-    {#            <label class="visually-hidden" for="autoSizingSelect">Preference</label>#}
-    {##}
-    {#            <div class="input-group">#}
-    {#                <div class="input-group-text">Author</div>#}
-    {#                <select class="form-select" id="autoSizingSelect">#}
-    {#                    <option selected>Select the author</option>#}
-    {#                    <option value="1">One</option>#}
-    {#                    <option value="2">Two</option>#}
-    {#                    <option value="3">Three</option>#}
-    {#                </select>#}
-    {#            </div>#}
-    {#        </div>#}
+{% block content %}
 
-
-    <div class="col-12">
-        <label class="visually-hidden" for="autoSizingInputGroup">Fullname</label>
-        <div class="input-group w-100">
-
-            <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Fullname">
+    <h3>Add Author</h3>
+    <form class="input-group mb-3 p-3 input-group-text" method="post">
+        {% csrf_token %}
+        <div class="col-12">
+            <label class="visually-hidden" for="autoSizingInputGroup">Fullname</label>
+            <div class="input-group w-100">
+                {{ form.fullname }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <label class="visually-hidden" for="autoSizingInputGroup">Date of birth</label>
-        <div class="input-group w-100">
-
-            <input type="date" class="form-control" id="autoSizingInputGroup" placeholder="Date of birth">
+        <div class="col-12 mt-3">
+            <label class="visually-hidden" for="autoSizingInputGroup">Date of birth</label>
+            <div class="input-group w-100">
+                {{ form.born_date }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <label class="visually-hidden" for="autoSizingInputGroup">Place of birth</label>
-        <div class="input-group w-100">
-
-            <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Place of birth">
+        <div class="col-12 mt-3">
+            <label class="visually-hidden" for="autoSizingInputGroup">Place of birth</label>
+            <div class="input-group w-100">
+                {{ form.born_location }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <div class="input-group w-100">
-
-            <textarea class="form-control" aria-label="Description" placeholder="Description"></textarea>
+        <div class="col-12 mt-3">
+            <div class="input-group w-100">
+                {{ form.description }}
+            </div>
         </div>
-    </div>
-    <div class="col-12 mt-3">
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </div>
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </div>
 
-</form>
+    </form>
+
+{% endblock %}

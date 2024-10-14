@@ -1,8 +1,8 @@
 import json
 
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views.generic import CreateView
-from django.contrib import messages
+from django.urls import reverse_lazy
 
 from .models import Quote, Author
 from .forms import QuoteForm, AuthorForm
@@ -42,17 +42,20 @@ def initialize_database(request):
             author.save()
 
 
-class AuthorView(CreateView):
-    model = AuthorForm
-    template_name = 'app_quote/my-quotes.html'
-    fields = ('fullname', 'born_date', 'born_location', 'description')
-
-
 class QuoteView(CreateView):
-    model = AuthorForm
-    template_name = 'app_quote/my-quotes.html'
-    fields = ('quote', 'tags', 'author')
+    model = Quote
+    form_class = QuoteForm
+    template_name = 'app_quote/add-quote.html'
+    success_url = reverse_lazy('quotes:my-quotes')
 
 
-def add_quote(request):
-    return render(request, 'app_quote/my-quotes.html')
+class AuthorView(CreateView):
+    model = Author
+    form_class = AuthorForm
+    template_name = 'app_quote/add-author.html'
+    success_url = reverse_lazy('quotes:my-quotes')
+
+
+def my_quotes(request):
+    result_quotes = Quote.objects.all()
+    return render(request, 'app_quote/my-quotes.html', context={'result_quotes': result_quotes})

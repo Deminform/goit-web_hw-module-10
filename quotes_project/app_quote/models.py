@@ -7,6 +7,9 @@ class Author(models.Model):
     born_location = models.CharField(max_length=150)
     description = models.TextField()
 
+    def __str__(self):
+        return self.fullname
+
 
 class Quote(models.Model):
     tags = models.CharField(max_length=50)
