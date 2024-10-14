@@ -53,7 +53,7 @@ class AuthorView(CreateView):
 
 
 def author(request, pk):
-    result_author = Author.objects.filter(pk=pk)
+    result_author = Author.objects.get(pk=pk)
     return render(request, 'app_quote/author.html', context={'result_author': result_author})
 
 
