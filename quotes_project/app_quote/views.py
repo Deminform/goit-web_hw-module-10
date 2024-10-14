@@ -1,20 +1,16 @@
 import json
 
-from django.shortcuts import render
-from django.views.generic import CreateView
+from django.shortcuts import redirect, render
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 
 from .models import Quote, Author
-from .forms import QuoteForm, AuthorForm
+from .forms import QuoteForm, AuthorForm, QuoteEditForm
 
 
 def index(request):
-    return render(request, 'app_quote/index.html')
-
-
-def quotes(request):
-    context = Quote.objects.all()
-    return None
+    result_quotes = Quote.objects.all()
+    return render(request, 'app_quote/index.html', context={'result_quotes': result_quotes})
 
 
 def initialize_database(request):
@@ -46,16 +42,36 @@ class QuoteView(CreateView):
     model = Quote
     form_class = QuoteForm
     template_name = 'app_quote/add-quote.html'
-    success_url = reverse_lazy('quotes:my-quotes')
+    success_url = reverse_lazy('app_quotes:my-quotes')
 
 
 class AuthorView(CreateView):
     model = Author
     form_class = AuthorForm
     template_name = 'app_quote/add-author.html'
-    success_url = reverse_lazy('quotes:my-quotes')
+    success_url = reverse_lazy('app_quotes:my-quotes')
+
+
+def author(request, pk):
+    result_author = Author.objects.filter(pk=pk)
+    return render(request, 'app_quote/author.html', context={'result_author': result_author})
 
 
 def my_quotes(request):
     result_quotes = Quote.objects.all()
     return render(request, 'app_quote/my-quotes.html', context={'result_quotes': result_quotes})
+
+
+def remove_quote(request, pk):
+    quote = Quote.objects.filter(pk=pk)
+    quote.delete()
+    return redirect('app_quotes:my-quotes')
+
+
+class QuoteUpdateView(UpdateView):
+    model = Quote
+    form_class = QuoteEditForm
+    template_name = 'app_quote/edit-quote.html'
+    success_url = reverse_lazy('app_quotes:my-quotes')
+
+

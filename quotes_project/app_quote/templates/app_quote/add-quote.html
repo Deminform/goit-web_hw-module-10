@@ -5,13 +5,11 @@
     <form class="input-group mb-3 p-3 input-group-text" method="post">
         {% csrf_token %}
         <div class="col-12">
-            {{ form.author.label_tag }}
             <div class="input-group w-100">
                 {{ form.author }}
             </div>
         </div>
         <div class="col-12 mt-3">
-            <label class="visually-hidden" for="autoSizingInputGroup">Tags</label>
             <div class="input-group w-100">
                 {{ form.tags }}
             </div>
@@ -21,6 +19,20 @@
                 {{ form.quote }}
             </div>
         </div>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+                <ul class="mb-0">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
         <div class="col-12 mt-3">
             <button type="submit" class="btn btn-primary w-100">Submit</button>
         </div>

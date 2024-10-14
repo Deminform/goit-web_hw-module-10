@@ -12,20 +12,29 @@
             <thead>
             <tr>
                 <th scope="col" style="width: 3%;">#</th>
-                <th scope="col" style="width: 50%;">Quote</th>
-                <th scope="col" style="width: 20%;">Author</th>
-                <th scope="col" style="width: 20%;">Tags</th>
-                <th scope="col" style="width: 7%; text-align: right;">Edit</th>
+                <th scope="col" style="width: 15%;">Author</th>
+                <th scope="col" style="width: 58%;">Quote</th>
+                <th scope="col" style="width: 10%;">Tags</th>
+                <th scope="col" style="width: 7%; text-align: right;">Manage</th>
             </tr>
             </thead>
-            {% for el in result_quotes %}
+            {% for quote in result_quotes %}
                 <tbody>
                 <tr>
-                    <th scope="row">{{ el.id }}</th>
-                    <td>{{ el.quote }}</td>
-                    <td>{{ el.author }}</td>
-                    <td>{{ el.tags }}</td>
-                    <td style="width: 10%; text-align: right;">edit</td>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ quote.author }}</td>
+                    <td>{{ quote.quote }}</td>
+                    <td>{{ quote.tags }}</td>
+                    <td style="text-align: right;">
+                        <form method="POST" action="#">
+                            {% csrf_token %}
+                            <a type="submit" class="btn btn-outline-secondary btn-sm mb-2" style="min-width: 55px" href="{% url 'app_quotes:edit-quote' quote.id %}">edit</a>
+                        </form>
+                        <form method="POST" action="#">
+                            {% csrf_token %}
+                            <a type="submit" class="btn btn-outline-danger btn-sm" style="min-width: 55px" href="{% url 'app_quotes:remove' quote.id %}">delete</a>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
