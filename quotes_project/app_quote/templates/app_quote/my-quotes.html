@@ -24,7 +24,7 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ quote.author }}</td>
                     <td>{{ quote.quote }}</td>
-                    <td>{{ quote.tags }}</td>
+                    <td>{% for tag in quote.tags.all %} {{ tag.name }} {% endfor %}</td>
                     <td style="text-align: right;">
                         <form method="POST" action="#">
                             {% csrf_token %}

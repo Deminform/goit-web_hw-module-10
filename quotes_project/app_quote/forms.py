@@ -62,15 +62,17 @@ class QuoteForm(ModelForm):
 class QuoteEditForm(ModelForm):
     tags = CharField(
         required=True,
-        widget=TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Tags (coma-separated)'}),
-        help_text='Enter tags separated by commas'
+        widget=TextInput(attrs={'class': 'form-control'}),
+        help_text='Enter tags separated by commas.'
     )
 
     class Meta:
         model = Quote
-        fields = ('quote', 'author', 'tags')
+        fields = ['quote', 'author']
+        widgets = {
+            'quote': Textarea(attrs={'class': 'form-control'}),
+            'author': Select(attrs={'class': 'form-select'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -81,7 +83,6 @@ class QuoteEditForm(ModelForm):
         quote = super().save(commit=False)
         if commit:
             quote.save()
-
         tags_str = self.cleaned_data['tags']
         tags_list = [tag.strip() for tag in tags_str.split(',') if tag.strip()]
         quote.tags.clear()
