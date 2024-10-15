@@ -138,6 +138,9 @@ STATIC_URL = 'static/'
 LOGIN_URL = BASE_DIR / 'login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+PAGE_SIZE = 20
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

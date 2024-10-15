@@ -1,38 +1,60 @@
 {% extends 'app_quote/base.html' %}
 
+
 {% block content %}
     <h1>Quotes to Scrape</h1>
-    <div class="row mt-5">
-        <div class="card col-10">
-            {% for quote in result_quotes %}
-                <div class="card-body">
-                    <p class="card-text">{{ quote.quote }}</p>
-                    <div>
-                        <span class="fs-6">By</span>
-                        <span class="fs-6 fw-semibold">{{ quote.author }}</span>
-                        <a href="{% url 'app_quotes:author' quote.author.id %}"
-                           class="link-offset-2 link-underline link-underline-opacity-0 link-opacity-50-hover">about</a>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-1">
-                            <span>Tags: </span>
+    {% if page_obj %}
+        <div class="row mt-5">
+            {% for quote in page_obj %}
+                <div class="card col-10 mb-4">
+                    <div class="card-body">
+                        <p class="card-text">{{ quote.quote }}</p>
+                        <div>
+                            <span class="fs-6">By</span>
+                            <span class="fs-6 fw-semibold">{{ quote.author }}</span>
+                            <a href="{% url 'app_quotes:author' quote.author.id %}"
+                               class="link-offset-2 link-underline link-underline-opacity-0 link-opacity-50-hover">about</a>
                         </div>
-                        <div class="col-11">
-                            {% for tag in quote.tags.all %}
-                                <button type="button"
-                                        class="btn btn-outline-secondary btn-sm p-0 px-1">{{ tag.name }}</button>
-                            {% endfor %}
+                        <div class="row mt-3">
+                            <div class="col-1">
+                                <span>Tags: </span>
+                            </div>
+                            <div class="col-11">
+                                {% for tag in quote.tags.all %}
+                                    <button type="button"
+                                            class="btn btn-outline-secondary btn-sm p-0 px-1">{{ tag.name }}</button>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-        </div>
-        <div class="col-2">
-
-            <div style="text-align: right;">
-            <span>abba</span>
+            <div class="col-2">
+                <div style="text-align: right;">
+                    <span>abba</span>
+                </div>
             </div>
-
+            {% else %}
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <a class="btn btn-primary" href="{% url 'app_quotes:init' %}">Initialization of basic data</a>
+            </div>
         </div>
+    {% endif %}
+    <div class="d-grid gap-2 col-6 mx-auto pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-secondary" href="?page=1">&laquo; first</a>
+            <a class="btn btn-outline-secondary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current ms-2">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-secondary ms-2" href="?page={{ page_obj.next_page_number }}">next</a>
+            <a class="btn btn-outline-secondary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
     </div>
 {% endblock %}
