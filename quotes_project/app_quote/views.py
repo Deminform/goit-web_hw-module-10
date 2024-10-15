@@ -66,7 +66,11 @@ def author(request, pk):
 
 def my_quotes(request):
     result_quotes = Quote.objects.all()
-    return render(request, 'app_quote/my-quotes.html', context={'result_quotes': result_quotes})
+    paginator = Paginator(result_quotes, settings.PAGE_SIZE)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'app_quote/my-quotes.html', context={'page_obj': page_obj})
 
 
 def remove_quote(request, pk):
@@ -87,7 +91,6 @@ class AuthorView(CreateView):
     form_class = AuthorForm
     template_name = 'app_quote/add-author.html'
     success_url = reverse_lazy('app_quotes:my-quotes')
-
 
 
 class QuoteUpdateView(UpdateView):

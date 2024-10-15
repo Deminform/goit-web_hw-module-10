@@ -18,7 +18,7 @@
                 <th scope="col" style="width: 7%; text-align: right;">Manage</th>
             </tr>
             </thead>
-            {% for quote in result_quotes %}
+            {% for quote in page_obj %}
                 <tbody>
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
@@ -39,5 +39,22 @@
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-secondary" href="?page=1">&laquo; first</a>
+            <a class="btn btn-outline-secondary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current ms-2">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-secondary ms-2" href="?page={{ page_obj.next_page_number }}">next</a>
+            <a class="btn btn-outline-secondary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
     </div>
 {% endblock %}
