@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
@@ -15,6 +16,8 @@ import dateparser
 
 from .models import Quote, Author, Tag
 from .forms import QuoteForm, AuthorForm, QuoteEditForm
+
+logger = logging.getLogger('myapp')
 
 
 @login_required
@@ -62,12 +65,36 @@ def index(request):
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, 'app_quote/index.html', context={"page_obj": page_obj})
+
+    context = {
+        "page_obj": page_obj,
+        'title': 'Quotes | Home'
+    }
+    return render(request, 'app_quote/index.html', context)
+
+
+def search(request, tag):
+    logger.info('--------------------search--------------------- .')
+    result_quotes = Quote.objects.filter(tags__name__in=[tag]).order_by('id').all()
+    paginator = Paginator(result_quotes, settings.PAGE_SIZE)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "page_obj": page_obj,
+        'title': 'Search result for ' + tag,
+        "search_request": tag
+    }
+    return render(request, 'app_quote/search.html', context)
 
 
 def author(request, pk):
     result_author = Author.objects.get(pk=pk)
-    return render(request, 'app_quote/author.html', context={'result_author': result_author})
+    context = {
+        "result_author": result_author,
+        'title': 'About ' + result_author.fullname
+    }
+    return render(request, 'app_quote/author.html', context)
 
 
 @login_required
