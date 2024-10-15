@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 
 import dateparser
 
@@ -60,22 +61,23 @@ def initialize_database(request):
 
 
 def index(request):
-    result_quotes = Quote.objects.all()
+    result_quotes = Quote.objects.all().order_by('id')
+    tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)
-
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     context = {
         "page_obj": page_obj,
-        'title': 'Quotes | Home'
+        'title': 'Quotes | Home',
+        "top_tags": tags_result
     }
     return render(request, 'app_quote/index.html', context)
 
 
 def search(request, tag):
-    logger.info('--------------------search--------------------- .')
     result_quotes = Quote.objects.filter(tags__name__in=[tag]).order_by('id').all()
+    tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)
 
     page_number = request.GET.get("page")
@@ -83,9 +85,16 @@ def search(request, tag):
     context = {
         "page_obj": page_obj,
         'title': 'Search result for ' + tag,
-        "search_request": tag
+        "search_request": tag,
+        "top_tags": tags_result
     }
     return render(request, 'app_quote/search.html', context)
+
+
+def top_tags(request):
+    tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
+    context = {"top_tags": tags_result}
+    return render(request, 'app_quote/top-tags.html', context)
 
 
 def author(request, pk):

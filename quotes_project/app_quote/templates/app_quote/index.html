@@ -7,7 +7,7 @@
     {% endif %}
     {% if page_obj %}
         <div class="row">
-            <div class="row mt-5 col-10 ">
+            <div class="row mt-5 col-9 ">
                 {% for quote in page_obj %}
                     <div class="card mb-4">
                         <div class="card-body">
@@ -32,14 +32,12 @@
                         </div>
                     </div>
                 {% endfor %}
-
                 <div class="d-grid gap-2 col-6 mx-auto pagination text-center">
                 <span class="step-links">
             {% if page_obj.has_previous %}
                 <a class="btn btn-outline-secondary" href="?page=1">&laquo; first</a>
                 <a class="btn btn-outline-secondary" href="?page={{ page_obj.previous_page_number }}">previous</a>
             {% endif %}
-
                     <span class="current ms-2">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                 </span>
@@ -52,10 +50,19 @@
                 </span>
                 </div>
             </div>
-            <div class="mt-5 col-2">
-                <div style="text-align: right;">
-                    <span>abba</span>
+            <div class="mt-5 col-3 d-flex flex-column align-items-end">
+                <div>
+                    <h3>Top Ten Tags</h3>
                 </div>
+                {% for tag in top_tags %}
+                    <ul class="list-group col-7">
+                        <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                            <a class="nav-link btn btn-link"
+                               href="{% url 'app_quotes:search' tag.name %}">{{ tag.name }}</a>
+                            <span class="badge text-bg-primary rounded-pill">{{ tag.quote_count }}</span>
+                        </li>
+                    </ul>
+                {% endfor %}
             </div>
         </div>
     {% else %}
