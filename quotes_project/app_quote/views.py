@@ -1,12 +1,13 @@
 import json
 import os
-import re
 
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 import dateparser
 
@@ -14,6 +15,7 @@ from .models import Quote, Author, Tag
 from .forms import QuoteForm, AuthorForm, QuoteEditForm
 
 
+@login_required
 def initialize_database(request):
     file_path_author = os.path.join(settings.MEDIA_ROOT, 'seeds', 'authors.json')
     file_path_quotes_tags = os.path.join(settings.MEDIA_ROOT, 'seeds', 'quotes.json')
@@ -36,12 +38,14 @@ def initialize_database(request):
         for item in result:
             try:
                 author_result = Author.objects.get(fullname=item['author'])
+                user_result = User.objects.first()
             except Author.DoesNotExist:
                 author_result = None
             if author_result:
                 quote = Quote(
                     quote=item['quote'],
                     author=author_result,
+                    created_by_id=user_result.id,
                 )
                 quote.save()
                 for tag_name in item['tags']:
@@ -64,6 +68,7 @@ def author(request, pk):
     return render(request, 'app_quote/author.html', context={'result_author': result_author})
 
 
+@login_required
 def my_quotes(request):
     result_quotes = Quote.objects.all()
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)
@@ -73,6 +78,7 @@ def my_quotes(request):
     return render(request, 'app_quote/my-quotes.html', context={'page_obj': page_obj})
 
 
+@login_required
 def remove_quote(request, pk):
     quote = Quote.objects.filter(pk=pk)
     quote.delete()

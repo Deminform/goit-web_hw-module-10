@@ -21,7 +21,7 @@
             {% for quote in page_obj %}
                 <tbody>
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
+                    <th scope="row">{{ quote.id }}</th>
                     <td>{{ quote.author }}</td>
                     <td>{{ quote.quote }}</td>
                     <td>{% for tag in quote.tags.all %} {{ tag.name }} {% endfor %}</td>

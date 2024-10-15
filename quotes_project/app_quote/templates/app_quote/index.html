@@ -2,7 +2,9 @@
 
 
 {% block content %}
-    <h1>Quotes to Scrape</h1>
+    {% if user.is_authenticated %}
+        <h1>Quotes to Scrape</h1>
+    {% endif %}
     {% if page_obj %}
         <div class="row mt-5">
             {% for quote in page_obj %}
@@ -34,13 +36,7 @@
                     <span>abba</span>
                 </div>
             </div>
-            {% else %}
-            <div class="position-absolute top-50 start-50 translate-middle">
-                <a class="btn btn-primary" href="{% url 'app_quotes:init' %}">Initialization of basic data</a>
-            </div>
-        </div>
-    {% endif %}
-    <div class="d-grid gap-2 col-6 mx-auto pagination">
+            <div class="d-grid gap-2 col-6 mx-auto pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
             <a class="btn btn-outline-secondary" href="?page=1">&laquo; first</a>
@@ -56,5 +52,19 @@
             <a class="btn btn-outline-secondary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-    </div>
+            </div>
+            {% else %}
+            {% if user.is_authenticated %}
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <a class="btn btn-primary" href="{% url 'app_quotes:init' %}">Initialization of basic data</a>
+                </div>
+                </div>
+            {% else %}
+                <div class="d-grid gap-2 mx-auto  position-absolute top-50 start-50 translate-middle">
+                    <h4 class="">To initialize basic data, please login/register</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'app_user:signin' %}">Signin</a>
+                    <a class="btn btn-outline-primary" href="{% url 'app_user:signup' %}">Create an account</a>
+                </div>
+            {% endif %}
+    {% endif %}
 {% endblock %}
