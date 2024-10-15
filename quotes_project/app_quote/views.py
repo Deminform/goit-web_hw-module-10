@@ -2,12 +2,14 @@ import json
 import os
 
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
 import dateparser
 
@@ -70,7 +72,7 @@ def author(request, pk):
 
 @login_required
 def my_quotes(request):
-    result_quotes = Quote.objects.all()
+    result_quotes = Quote.objects.filter(created_by_id=request.user.id)
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)
 
     page_number = request.GET.get("page")
@@ -80,7 +82,9 @@ def my_quotes(request):
 
 @login_required
 def remove_quote(request, pk):
-    quote = Quote.objects.filter(pk=pk)
+    quote = get_object_or_404(Quote, pk=pk)
+    if quote.created_by != request.user:
+        raise PermissionDenied('You are not allowed to delete this quote.')
     quote.delete()
     return redirect('app_quotes:my-quotes')
 
@@ -91,6 +95,10 @@ class QuoteView(CreateView):
     template_name = 'app_quote/add-quote.html'
     success_url = reverse_lazy('app_quotes:my-quotes')
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
 
 class AuthorView(CreateView):
     model = Author
@@ -99,10 +107,18 @@ class AuthorView(CreateView):
     success_url = reverse_lazy('app_quotes:my-quotes')
 
 
-class QuoteUpdateView(UpdateView):
+class QuoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Quote
     form_class = QuoteEditForm
     template_name = 'app_quote/edit-quote.html'
     success_url = reverse_lazy('app_quotes:my-quotes')
 
+    def test_func(self):
+        quote = self.get_object()
+        return quote.created_by == self.request.user
 
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            raise PermissionDenied('You are not allowed to edit this object.')
+        else:
+            return super().handle_no_permission()

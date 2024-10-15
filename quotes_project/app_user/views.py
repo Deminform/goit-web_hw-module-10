@@ -23,5 +23,5 @@ class RegisterView(View):
             form.save()
             username = form.cleaned_data['username']
             messages.success(request, f'Account created for {username}')
-            return redirect('quotes:index')
+            return redirect('app_quotes:index')
         return render(request, self.template_name, {'form': form})
