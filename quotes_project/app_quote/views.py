@@ -1,5 +1,4 @@
 import json
-import os
 import logging
 
 from django.core.paginator import Paginator
@@ -19,13 +18,9 @@ from .models import Quote, Author, Tag
 from .forms import QuoteForm, AuthorForm, QuoteEditForm
 from .scrap import QuotesSpider, run_spider
 
-logger = logging.getLogger('myapp')
-
 
 @login_required
 def initialize_database(request):
-    # file_path_author = os.path.join(settings.MEDIA_ROOT, 'seeds', 'authors.json')
-    # file_path_quotes_tags = os.path.join(settings.MEDIA_ROOT, 'seeds', 'quotes.json')
     run_spider()
 
     with open(QuotesSpider.file_path_author, 'r', encoding='utf-8') as file:
