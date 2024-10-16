@@ -11,6 +11,7 @@ django = "^5.1.2"
 pillow = "^10.4.0"
 psycopg2 = "^2.9.9"
 dateparser = "^1.2.0"
+scrapy = "^2.11.2"
 
 
 [build-system]

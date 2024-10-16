@@ -17,16 +17,18 @@ import dateparser
 
 from .models import Quote, Author, Tag
 from .forms import QuoteForm, AuthorForm, QuoteEditForm
+from .scrap import QuotesSpider, run_spider
 
 logger = logging.getLogger('myapp')
 
 
 @login_required
 def initialize_database(request):
-    file_path_author = os.path.join(settings.MEDIA_ROOT, 'seeds', 'authors.json')
-    file_path_quotes_tags = os.path.join(settings.MEDIA_ROOT, 'seeds', 'quotes.json')
+    # file_path_author = os.path.join(settings.MEDIA_ROOT, 'seeds', 'authors.json')
+    # file_path_quotes_tags = os.path.join(settings.MEDIA_ROOT, 'seeds', 'quotes.json')
+    run_spider()
 
-    with open(file_path_author, 'r', encoding='utf-8') as file:
+    with open(QuotesSpider.file_path_author, 'r', encoding='utf-8') as file:
         result = json.load(file)
 
         for item in result:
@@ -38,7 +40,7 @@ def initialize_database(request):
             )
             author_result.save()
 
-    with open(file_path_quotes_tags, 'r', encoding='utf-8') as file:
+    with open(QuotesSpider.file_path_quotes_tags, 'r', encoding='utf-8') as file:
         result = json.load(file)
 
         for item in result:
@@ -75,7 +77,7 @@ def index(request):
     return render(request, 'app_quote/index.html', context)
 
 
-def search(request, tag):
+def tags(request, tag):
     result_quotes = Quote.objects.filter(tags__name__in=[tag]).order_by('id').all()
     tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)

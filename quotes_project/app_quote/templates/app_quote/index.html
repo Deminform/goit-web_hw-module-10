@@ -25,7 +25,7 @@
                                 <div class="col-11">
                                     {% for tag in quote.tags.all %}
                                         <a type="button" class="btn btn-outline-secondary btn-sm p-0 px-1"
-                                           href="{% url 'app_quotes:search' tag.name %}">{{ tag.name }}</a>
+                                           href="{% url 'app_quotes:tag' tag.name %}">{{ tag.name }}</a>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -50,19 +50,28 @@
                 </span>
                 </div>
             </div>
-            <div class="mt-5 col-3 d-flex flex-column align-items-end">
-                <div>
-                    <h3>Top Ten Tags</h3>
+            <div class="mt-5 col-3">
+                <div style="text-align: end">
+                    <h2 class="mb-3">Top Ten Tags</h2>
+                    {% for tag in top_tags %}
+                        <div class="nav justify-content-end mb-1">
+                            <div>
+                                <a type="button" class="btn btn-outline-secondary btn-sm p-0 px-2 " style="font-size:
+                                        {% if forloop.counter0 == 0 %} 28px {% endif %}
+                                        {% if forloop.counter0 == 1 %} 26px {% endif %}
+                                        {% if forloop.counter0 == 2 %} 24px {% endif %}
+                                        {% if forloop.counter0 == 3 %} 22px {% endif %}
+                                        {% if forloop.counter0 == 4 %} 20px {% endif %}
+                                        {% if forloop.counter0 == 5 %} 18px {% endif %}
+                                        {% if forloop.counter0 == 6 %} 16px {% endif %}
+                                        {% if forloop.counter0 == 7 %} 14px {% endif %}
+                                        {% if forloop.counter0 == 8 %} 12px {% endif %}
+                                        {% if forloop.counter0 == 9 %} 10px {% endif %}"
+                                   href="{% url 'app_quotes:tag' tag.name %}">{{ tag.name }}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                {% for tag in top_tags %}
-                    <ul class="list-group col-7">
-                        <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
-                            <a class="nav-link btn btn-link"
-                               href="{% url 'app_quotes:search' tag.name %}">{{ tag.name }}</a>
-                            <span class="badge text-bg-primary rounded-pill">{{ tag.quote_count }}</span>
-                        </li>
-                    </ul>
-                {% endfor %}
             </div>
         </div>
     {% else %}
