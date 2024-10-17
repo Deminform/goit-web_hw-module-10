@@ -2,9 +2,43 @@
 
 {% block content %}
     <h3>Edit Quote</h3>
-    <form method="post">
+    <form class="input-group mb-3 p-3 input-group-text" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Update</button>
+        <div class="col-12">
+            <div class="input-group w-100">
+                {{ form.author }}
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <div class="input-group w-100">
+                {{ form.tags }}
+            </div>
+            {% if form.tags.help_text %}
+                <small class="form-text text-muted">{{ form.tags.help_text }}</small>
+            {% endif %}
+        </div>
+        <div class="col-12 mt-3">
+            <div class="input-group w-100">
+                {{ form.quote }}
+            </div>
+
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger mt-3">
+                <ul class="mb-0">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary w-100">Confirm changes</button>
+        </div>
     </form>
 {% endblock %}

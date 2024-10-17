@@ -41,7 +41,11 @@ class QuoteForm(ModelForm):
     tags = CharField(
         max_length=150,
         required=True,
-        widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'Tags'}))
+        widget=TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Tags - live, sport, love, friendship'}),
+        help_text='Enter tags separated by commas.'
+    )
 
     class Meta:
         model = Quote
@@ -63,7 +67,8 @@ class QuoteEditForm(ModelForm):
     tags = CharField(
         required=True,
         widget=TextInput(attrs={'class': 'form-control'}),
-        help_text='Enter tags separated by commas.'
+        help_text='Enter tags separated by commas.',
+        label=False
     )
 
     class Meta:

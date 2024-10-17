@@ -5,6 +5,11 @@
     <h3>Add Author</h3>
     <form class="input-group mb-3 p-3 input-group-text" method="post">
         {% csrf_token %}
+        {% if form.errors and form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
         <div class="col-12">
             <label class="visually-hidden" for="autoSizingInputGroup">Fullname</label>
             <div class="input-group w-100">
@@ -29,7 +34,7 @@
             </div>
         </div>
         <div class="col-12 mt-3">
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <button type="submit" class="btn btn-primary w-100">Add Author</button>
         </div>
 
     </form>
