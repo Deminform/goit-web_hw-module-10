@@ -1,5 +1,4 @@
 import json
-import logging
 
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
@@ -7,7 +6,7 @@ from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
@@ -59,8 +58,8 @@ def initialize_database(request):
 
 def index(request):
     result_quotes = Quote.objects.all().order_by('id')
-    tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)
+    tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -88,12 +87,6 @@ def tags(request, tag):
     return render(request, 'app_quote/search.html', context)
 
 
-def top_tags(request):
-    tags_result = Tag.objects.annotate(quote_count=Count('quotes')).order_by('-quote_count')[:10]
-    context = {"top_tags": tags_result}
-    return render(request, 'app_quote/top-tags.html', context)
-
-
 def author(request, pk):
     result_author = Author.objects.get(pk=pk)
     context = {
@@ -105,7 +98,7 @@ def author(request, pk):
 
 @login_required
 def my_quotes(request):
-    result_quotes = Quote.objects.filter(created_by_id=request.user.id)
+    result_quotes = Quote.objects.filter(created_by_id=request.user.id).order_by('id')
     paginator = Paginator(result_quotes, settings.PAGE_SIZE)
 
     page_number = request.GET.get("page")
@@ -119,10 +112,11 @@ def remove_quote(request, pk):
     if quote.created_by != request.user:
         raise PermissionDenied('You are not allowed to delete this quote.')
     quote.delete()
+    # invalidate_all_cache()
     return redirect('app_quotes:my-quotes')
 
 
-class QuoteView(CreateView):
+class QuoteView(LoginRequiredMixin, CreateView):
     model = Quote
     form_class = QuoteForm
     template_name = 'app_quote/add-quote.html'
@@ -133,7 +127,7 @@ class QuoteView(CreateView):
         return super().form_valid(form)
 
 
-class AuthorView(CreateView):
+class AuthorView(LoginRequiredMixin, CreateView):
     model = Author
     form_class = AuthorForm
     template_name = 'app_quote/add-author.html'
@@ -155,3 +149,7 @@ class QuoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             raise PermissionDenied('You are not allowed to edit this object.')
         else:
             return super().handle_no_permission()
+
+#
+# def invalidate_all_cache():
+#     cache.clear()

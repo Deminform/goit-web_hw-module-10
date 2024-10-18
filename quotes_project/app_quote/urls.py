@@ -14,6 +14,5 @@ urlpatterns = [
     path('add-author/', views.AuthorView.as_view(), name='add-author'),
     path('remove/<int:pk>', views.remove_quote, name='remove'),
     path('edit-quote/<int:pk>/', views.QuoteUpdateView.as_view(), name='edit-quote'),
-    path('tag/<str:tag>', views.tags, name='tag'),
-    path('top-tags/', views.top_tags, name='top-tags'),
+    path('tag/<str:tag>', views.tags, name='tag')
 ]
