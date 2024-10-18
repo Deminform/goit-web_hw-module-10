@@ -19,7 +19,6 @@ from .forms import QuoteForm, AuthorForm, QuoteEditForm
 from .scrap import QuotesSpider, run_spider
 
 
-
 @login_required
 def initialize_database(request):
     run_spider()
