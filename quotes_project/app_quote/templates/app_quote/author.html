@@ -11,6 +11,13 @@
             <p class="fs-6 fw-semibold mb-1 ">Description</p>
             <p class="fs-6 description-text">{{ result_author.description }}</p>
         </div>
+        <div class="flex-grow-1 col-2">
+                {% if previous_url %}
+                    <a href="{{ previous_url }}" class="btn btn-secondary w-100">Back</a>
+                {% else %}
+                    <a href="{% url 'app_quotes:index' %}" class="btn btn-secondary w-100">Homepage</a>
+                {% endif %}
+            </div>
     </div>
 </div>
 {% endblock %}
