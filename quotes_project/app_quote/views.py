@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
@@ -20,6 +21,10 @@ from .scrap import QuotesSpider, run_spider
 
 @login_required
 def initialize_database(request):
+
+    if Path(QuotesSpider.file_path_author).is_file() or Path(QuotesSpider.file_path_quotes_tags).is_file():
+        return redirect('app_quotes:index')
+
     run_spider()
 
     with open(QuotesSpider.file_path_author, 'r', encoding='utf-8') as file:

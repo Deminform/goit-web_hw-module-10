@@ -77,13 +77,13 @@
     {% else %}
         {% if user.is_authenticated %}
             <div class="position-absolute top-50 start-50 translate-middle">
-                <a class="btn btn-primary" href="{% url 'app_quotes:init' %}">Initialization of basic data</a>
+                <a class="btn btn-outline-secondary" href="{% url 'app_quotes:init' %}">Initialization of basic data</a>
             </div>
         {% else %}
             <div class="d-grid gap-2 mx-auto  position-absolute top-50 start-50 translate-middle">
                 <h4 class="">To initialize basic data, please login/register</h4>
-                <a class="btn btn-outline-primary" href="{% url 'app_user:signin' %}">Signin</a>
-                <a class="btn btn-outline-primary" href="{% url 'app_user:signup' %}">Create an account</a>
+                <a class="btn btn-outline-secondary " href="{% url 'app_user:signin' %}">Signin</a>
+                <a class="btn btn-outline-secondary " href="{% url 'app_user:signup' %}">Create an account</a>
             </div>
         {% endif %}
     {% endif %}
