@@ -12,6 +12,7 @@
                     <div class="card mb-4 bg-color-card">
                         <div class="card-body">
                             <p class="card-text">{{ quote.quote }}</p>
+                            <hr>
                             <div>
                                 <span class="fs-6">By</span>
                                 <span class="fs-6 fw-semibold">{{ quote.author }}</span>
@@ -19,7 +20,7 @@
                                    class="link-offset-2 link-underline link-underline-opacity-0 link-opacity-50-hover">about</a>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-1">
+                                <div class="col-1 tags-c">
                                     <span>Tags: </span>
                                 </div>
                                 <div class="col-11">
@@ -51,11 +52,11 @@
             </div>
             <div class="mt-5 col-3">
                 <div class="end-text-block">
-                    <h2 class="mb-3">Top Ten Tags</h2>
+                    <h2 class="mb-3 top-ten-tags">Top Ten Tags</h2>
                     {% for tag in top_tags %}
                         <div class="nav justify-content-end mb-1">
                             <div>
-                                <a type="button" class="btn btn-outline-secondary btn-sm p-0 px-2 " style="font-size:
+                                <a type="button" class="btn btn-outline-secondary btn-sm p-0 px-2 top-tag-item" style="font-size:
                                         {% if forloop.counter0 == 0 %} 28px {% endif %}
                                         {% if forloop.counter0 == 1 %} 26px {% endif %}
                                         {% if forloop.counter0 == 2 %} 24px {% endif %}

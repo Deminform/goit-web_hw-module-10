@@ -67,6 +67,12 @@ hr {
   --bs-table-color: #cfe0ee;
 }
 
+.author-text {
+  font-style: italic;
+  font-size: 17px;
+  font-weight: lighter;
+}
+
 .form-control {
   color: #e6edf5;
   background-color: #2c3f64;
