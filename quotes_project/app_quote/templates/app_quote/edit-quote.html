@@ -2,7 +2,7 @@
 
 {% block content %}
     <h3>Edit Quote</h3>
-    <form class="mb-3 p-3" method="post">
+    <form class="mb-3" method="post">
         {% csrf_token %}
         <div class="col-12">
             <div class="input-group w-100">
@@ -43,9 +43,9 @@
             </div>
             <div class="flex-grow-1 ms-2 col-2">
                 {% if previous_url %}
-                    <a href="{{ previous_url }}" class="btn btn-secondary w-100">Назад</a>
+                    <a href="{{ previous_url }}" class="btn btn-secondary w-100">Cancel</a>
                 {% else %}
-                    <a href="{% url 'app_quotes:index' %}" class="btn btn-secondary w-100">На главную</a>
+                    <a href="{% url 'app_quotes:index' %}" class="btn btn-secondary w-100">Homepage</a>
                 {% endif %}
             </div>
         </div>

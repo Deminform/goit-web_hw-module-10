@@ -6,10 +6,10 @@
 <div class="">
 
     <div class="card-body">
-        <p class="card-text author-text">Born: {{ result_author.born_date }} in {{ result_author.born_location }}</p>
+        <p class="card-text author-text">Born: {{ result_author.born_date }} {{ result_author.born_location }}</p>
         <div>
             <p class="fs-6 fw-semibold mb-1 ">Description</p>
-            <span class="fs-6">{{ result_author.description }}</span>
+            <p class="fs-6 description-text">{{ result_author.description }}</p>
         </div>
     </div>
 </div>

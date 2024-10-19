@@ -3,7 +3,7 @@
 {% block content %}
 
     <h3>Add Author</h3>
-    <form method="post" class="mb-3 p-3">
+    <form method="post" class="mb-3">
         {% csrf_token %}
         {% if form.errors and form.non_field_errors %}
             <div class="alert alert-danger" role="alert">
@@ -11,19 +11,15 @@
             </div>
         {% endif %}
         <div class="mb-3">
-            <label class="form-label" for="id_fullname">Fullname</label>
             {{ form.fullname }}
         </div>
         <div class="mb-3">
-            <label class="form-label" for="id_born_date">Date of birth</label>
             {{ form.born_date }}
         </div>
         <div class="mb-3">
-            <label class="form-label" for="id_born_location">Place of birth</label>
             {{ form.born_location }}
         </div>
         <div class="mb-3">
-            <label class="form-label" for="id_description">Description</label>
             {{ form.description }}
         </div>
         <div class="d-flex mt-3">
@@ -32,9 +28,9 @@
             </div>
             <div class="flex-grow-1 ms-2 col-2">
                 {% if previous_url %}
-                    <a href="{{ previous_url }}" class="btn btn-secondary w-100">Назад</a>
+                    <a href="{{ previous_url }}" class="btn btn-secondary w-100">Cancel</a>
                 {% else %}
-                    <a href="{% url 'app_quotes:index' %}" class="btn btn-secondary w-100">На главную</a>
+                    <a href="{% url 'app_quotes:index' %}" class="btn btn-secondary w-100">Homepage</a>
                 {% endif %}
             </div>
         </div>
