@@ -9,7 +9,7 @@
         <div class="row">
             <div class="row mt-5 col-9 ">
                 {% for quote in page_obj %}
-                    <div class="card mb-4">
+                    <div class="card mb-4 bg-color-card">
                         <div class="card-body">
                             <p class="card-text">{{ quote.quote }}</p>
                             <div>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="mt-5 col-3">
-                <div style="text-align: end">
+                <div class="end-text-block">
                     <h2 class="mb-3">Top Ten Tags</h2>
                     {% for tag in top_tags %}
                         <div class="nav justify-content-end mb-1">

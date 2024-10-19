@@ -8,7 +8,7 @@
             <a class="btn btn-outline-secondary" type="button" href="{% url 'app_quotes:add-quotes' %}">Add Quote</a>
         </div>
         <h3>My Quotes</h3>
-        <table class="table">
+        <table class="table table-dark">
             <thead>
             <tr>
                 <th scope="col" style="width: 3%;">#</th>
@@ -25,14 +25,14 @@
                     <td>{{ quote.author }}</td>
                     <td>{{ quote.quote }}</td>
                     <td>{% for tag in quote.tags.all %} {{ tag.name }} {% endfor %}</td>
-                    <td style="text-align: right;">
+                    <td class="text-align-right">
                         <form method="POST" action="#">
                             {% csrf_token %}
-                            <a type="submit" class="btn btn-outline-secondary btn-sm mb-2" style="min-width: 55px" href="{% url 'app_quotes:edit-quote' quote.id %}">edit</a>
+                            <a type="submit" class="btn btn-outline-secondary btn-sm mb-2 min-width-55" href="{% url 'app_quotes:edit-quote' quote.id %}">edit</a>
                         </form>
                         <form method="POST" action="#">
                             {% csrf_token %}
-                            <a type="submit" class="btn btn-outline-danger btn-sm" style="min-width: 55px" href="{% url 'app_quotes:remove' quote.id %}">delete</a>
+                            <a type="submit" class="btn btn-outline-danger btn-sm min-width-55" href="{% url 'app_quotes:remove' quote.id %}">delete</a>
                         </form>
                     </td>
                 </tr>

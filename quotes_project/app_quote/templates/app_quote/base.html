@@ -11,18 +11,20 @@
             crossorigin="anonymous"></script>
     <title>{{ title }}</title>
 </head>
-<body>
-{% include 'app_quote/panel.html' %}
-<div class="container mb-5" style="min-height: 100vh">
-    {% block content %}
-    {% endblock %}
-</div>
-<footer class="bg-body-tertiary text-center">
-    <div class="container p-4"></div>
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2024 Copyright:
-        <a class="text-body" href="#">mysite</a>
-    </div>
-</footer>
-</body>
+    <body>
+        {% include 'app_quote/panel.html' %}
+            <div class="container mb-5 min-vh">
+
+                {% block content %}
+
+                {% endblock %}
+            </div>
+    <footer class="bg-body-tertiary text-center">
+        <div class="container p-4"></div>
+        <div class="text-center p-3 footer-grey">
+            <span>© 2024 Copyright:</span>
+            <a class="text-body" href="#">mysite</a>
+        </div>
+    </footer>
+    </body>
 </html>
