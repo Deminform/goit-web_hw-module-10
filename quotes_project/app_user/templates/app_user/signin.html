@@ -34,9 +34,12 @@
                             <button type="submit" class="btn btn-outline-secondary ">Signin</button>
                         </div>
                         <div class="text-center text-muted mt-5 mb-0">Don't have an account?
-                            <a href="{% url 'app_user:signup' %}" >
+                            <a href="{% url 'app_user:signup' %}">
                                 <u>Sign up here</u>
                             </a>
+                        </div>
+                        <div class="small text-center">
+                            <a href="{% url "app_user:password_reset" %}" class="text-center"><i>Forgot Password?</i></a>
                         </div>
                     </form>
                 </div>

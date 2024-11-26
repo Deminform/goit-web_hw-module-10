@@ -15,6 +15,7 @@ __pycache__/
 # Virtual environments
 .venv/
 env/
+.env
 venv/
 ENV/
 env.bak/
@@ -51,4 +52,4 @@ coverage.xml
 dmypy.json
 
 # Database
-quotes_project/quotes_project/db_settings.py
+quotes_project/quotes_project/conf.py

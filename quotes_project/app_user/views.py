@@ -1,4 +1,7 @@
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
 
@@ -25,3 +28,12 @@ class RegisterView(View):
             messages.success(request, f'Account created for {username}')
             return redirect('app_quotes:index')
         return render(request, self.template_name, {'form': form})
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'app_user/password_reset_html.html'
+    email_template_name = 'app_user/password_reset_email.html'
+    html_email_template_name = 'app_user/password_reset_email.html'
+    success_url = reverse_lazy('app_user:password_reset_done')
+    success_message = "An email with instructions to reset your password has been sent to %(email)s."
+    subject_template_name = 'app_user/password_reset_subject.txt'
