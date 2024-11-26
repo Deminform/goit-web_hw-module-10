@@ -50,6 +50,3 @@ coverage.xml
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Database
-quotes_project/quotes_project/conf.py
